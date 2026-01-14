@@ -1,2 +1,3 @@
 model_name: deepset/gbert-large
+model_id: gbert-large
 supports_qlora: False

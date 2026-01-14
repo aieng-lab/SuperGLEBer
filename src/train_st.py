@@ -55,7 +55,9 @@ def training(cfg: DictConfig) -> None:
 
     # adapted from here: https://www.sbert.net/docs/training/overview.html and https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/sts/training_stsbenchmark.py
     logger.info("building model")
-    word_embedding_model = Transformer(cfg.model.model_name)
+    config_args = cfg.model.get("model_config_args", {})
+    model_args = cfg.model.get("model_args", {})
+    word_embedding_model = Transformer(cfg.model.model_name, config_args=config_args, model_args=model_args)
     # gpt2 has a weird token embedding size that is off by one
     # for all models where this already fits it's a noop
     word_embedding_model.auto_model.resize_token_embeddings(len(word_embedding_model.tokenizer))

@@ -1,0 +1,10 @@
+model_name: EuroBERT/EuroBERT-210m
+model_id: EuroBERT-210m
+model_family: eurobert
+supports_qlora: False
+model_args:
+    trust_remote_code: True
+model_config_args:
+    trust_remote_code: True
+tokenizer_args:
+    trust_remote_code: True

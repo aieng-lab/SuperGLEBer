@@ -35,10 +35,12 @@ from utils import (
     get_max_seq_length,
     get_peft_config,
 )
+import random
 
+from torch.utils.data import Subset
 
 def training(cfg: DictConfig) -> None:
-    model_conf = AutoConfig.from_pretrained(cfg["model"]["model_name"])
+    model_conf = AutoConfig.from_pretrained(cfg["model"]["model_name"], **cfg.model.get("model_config_args", {}))
     logger.add(Path.cwd() / cfg.task.task_name / "training_logs" / "logfile.log", level="INFO")
     if cfg.train_args.get("use_mps", False):
         flair.device = torch.device("mps")
@@ -53,8 +55,10 @@ def training(cfg: DictConfig) -> None:
 
     if cfg["debug"]:
         logger.info("Debug mode")
-        percent = 100 / len(corpus.train)
-        corpus.downsample(percentage=percent)
+        percent = 0.1 # 100 / len(corpus.train)
+        #corpus.downsample(percentage=percent)
+        train = Subset(corpus.train, random.sample(range(len(corpus.train)), int(percent * len(corpus.train))))
+        corpus = Corpus(train=train, dev=corpus.test, test=corpus.test)
         logger.info(
             f"Debug-Corpus: {len(corpus.train)} train + {len(corpus.dev)} dev + {len(corpus.test)} test sentences"
         )
@@ -92,7 +96,7 @@ def training(cfg: DictConfig) -> None:
 
         bnb_config = {}
         if "bnb_config" in cfg.train_procedure:
-            if model_conf.model_type == "bert" or model_conf.model_type == "modernbert":  # bert does not support quantization
+            if model_conf.model_type in {"bert", "modernbert", "eurobert"}:
                 bnb_config = {}
             else:
                 bnb_config = {"quantization_config": get_bnb_config(cfg)}

@@ -9,7 +9,7 @@ def get_load_model(cfg: DictConfig):
     def _load_model(self, model_name_or_path, config, cache_dir, backend = "torch",  **model_args):
         """Loads the transformer model"""
         if "bnb_config" in cfg.train_procedure:
-            if config.model_type == "bert" or config.model_type == "modernbert":  # bert does not support quantization
+            if config.model_type in {"bert", "modernbert", "eurobert"}:  # bert does not support quantization
                 model_args |= {}
             else:
                 model_args |= {"quantization_config": get_bnb_config(cfg)}

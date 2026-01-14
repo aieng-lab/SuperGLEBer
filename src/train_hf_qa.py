@@ -1,9 +1,7 @@
 from collections import Counter
 from pathlib import Path
-import bitsandbytes
 import numpy as np
 import pandas as pd
-import torch
 from datasets import DatasetDict, load_from_disk
 from loguru import logger
 from omegaconf import DictConfig
@@ -110,7 +108,7 @@ def training(cfg: DictConfig) -> None:
 
     # copied from here: https://huggingface.co/docs/transformers/tasks/question_answering
     logger.info("loading tokenizer")
-    tokenizer = AutoTokenizer.from_pretrained(cfg.model.model_name)
+    tokenizer = AutoTokenizer.from_pretrained(cfg.model.model_name, **cfg.model.get("tokenizer_args", {}))
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -155,7 +153,7 @@ def training(cfg: DictConfig) -> None:
 
     bnb_config = {}
     if "bnb_config" in cfg.train_procedure:
-        if config.model_type == "bert" or config.model_type=="modernbert":  # bert does not support quantization
+        if config.model_type in {"bert", "modernbert", "eurobert"}:
             bnb_config = {}
         else:
             bnb_config = {"quantization_config": get_bnb_config(cfg)}

@@ -1,2 +1,3 @@
 model_name: bert-base-german-cased
+model_id: bert-base-german-cased
 supports_qlora: False

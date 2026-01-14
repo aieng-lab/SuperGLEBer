@@ -11,4 +11,7 @@ hydra:
     chdir: True
   output_subdir: hydra_conf
   run:
-    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S.%f}
+    dir: outputs/${oc.select:model.model_id,${model.model_name}}/${seed}
+  sweep:
+    dir: outputs/${oc.select:model.model_id,${model.model_name}}/${seed}
+    subdir: ''
