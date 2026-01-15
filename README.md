@@ -1,7 +1,9 @@
 # SuperGLEBer with Bootstrapping
 
+[![arXiV](https://img.shields.io/badge/arXiv-2601.09313-blue.svg)](https://arxiv.org/abs/2601.09313)
+
 This repository is a SuperGLEBer variant adapted for the evaluation of [Understanding or Memorizing? A Case Study of German Definite Articles
-in Language Models](todo).
+in Language Models](https://arxiv.org/abs/2601.09313).
 See [https://github.com/aieng-lab/gradiend-german-articles](https://github.com/aieng-lab/gradiend-german-articles) for the main paper codebase.
 
 Compared to upstream [SuperGLEBer](https://github.com/LSX-UniWue/SuperGLEBer), we keep the benchmark and training workflow largely intact. The key additions are:
@@ -43,6 +45,22 @@ Compute and print results (including bootstrap confidence intervals) via:
 python src/evaluation/print_table.py
 ```
 
+## Citation
+
+Please cite the following paper if you use the bootstrap evaluation code in your research:
+
+```bib
+@misc{drechsel2026understandingmemorizingcasestudy,
+      title={Understanding or Memorizing? A Case Study of German Definite Articles in Language Models}, 
+      author={Jonathan Drechsel and Erisa Bytyqi and Steffen Herbold},
+      year={2026},
+      eprint={2601.09313},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2601.09313}, 
+}
+```
+For general citation of SuperGLEBer, see below.
 
 # ✨SuperGLEBer ✨
 
